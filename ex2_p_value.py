@@ -17,7 +17,7 @@ def run():
 
     X, y, _ = gen_data.generate(n, p, beta_vec)
 
-    clf = linear_model.Lasso(alpha=lamda, fit_intercept=False, normalize=False)
+    clf = linear_model.Lasso(alpha=lamda, fit_intercept=False)
     clf.fit(X, y)
     bh = clf.coef_
 
