@@ -20,7 +20,7 @@ def run():
 
     X, y, true_y = gen_data.generate(n, p, beta_vec)
 
-    clf = linear_model.Lasso(alpha=lamda, fit_intercept=False, normalize=False, tol=1e-10)
+    clf = linear_model.Lasso(alpha=lamda, fit_intercept=False, tol=1e-10)
     clf.fit(X, y)
     bh = clf.coef_
 
