@@ -62,5 +62,6 @@ if __name__ == '__main__':
     plt.plot([0, 1], [0, 1], 'k--')
     plt.legend()
     plt.tight_layout()
-    plt.savefig('./results/pivot_lasso_TN_A.png', dpi=100)
+    # plt.savefig('./results/pivot_lasso_TN_A.png', dpi=100)
+    plt.savefig('pivot_lasso_TN_A.png', dpi=100)
     plt.show()
