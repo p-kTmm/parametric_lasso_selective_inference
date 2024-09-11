@@ -109,7 +109,7 @@ def run_parametric_lasso_cv(X, lamda, n, p, threshold, a, b):
 def parametric_lasso(X, yz, lamda, b, n, p):
     yz_flatten = yz.flatten()
 
-    clf = linear_model.Lasso(alpha=lamda, fit_intercept=False, normalize=False, tol=1e-10)
+    clf = linear_model.Lasso(alpha=lamda, fit_intercept=False, tol=1e-10)
     clf.fit(X, yz_flatten)
     bhz = clf.coef_
 
