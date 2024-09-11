@@ -307,7 +307,7 @@ def run():
     for i in range(len(list_lamda)):
         each_lamda = list_lamda[i]
 
-        clf_lamda = linear_model.Lasso(alpha=each_lamda, fit_intercept=False, normalize=False)
+        clf_lamda = linear_model.Lasso(alpha=each_lamda, fit_intercept=False)
         clf_lamda.fit(X_train, y_train)
         bh_lamda = clf_lamda.coef_
         bh_lamda = bh_lamda.reshape((len(bh_lamda), 1))
@@ -317,7 +317,7 @@ def run():
             lamda = each_lamda
             lamda_idx = i
 
-    clf = linear_model.Lasso(alpha=lamda, fit_intercept=False, normalize=False)
+    clf = linear_model.Lasso(alpha=lamda, fit_intercept=False)
     clf.fit(X, y)
     bh = clf.coef_
 
