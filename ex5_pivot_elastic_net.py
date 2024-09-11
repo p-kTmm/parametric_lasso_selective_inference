@@ -26,7 +26,7 @@ def run():
     l1_ratio_for_elastic_net = lamda / (lamda + delta)
 
     regr = ElasticNet(alpha=alpha_for_elastic_net, l1_ratio=l1_ratio_for_elastic_net,
-                      fit_intercept=False, normalize=False, tol=1e-10)
+                      fit_intercept=False, tol=1e-10)
 
     regr.fit(X, y)
     bh = regr.coef_
@@ -61,6 +61,7 @@ if __name__ == '__main__':
     plt.plot(grid, sm.distributions.ECDF(np.array(list_pivot))(grid), 'r-', linewidth=6, label='Pivot Elastic Net TN-A')
     plt.plot([0, 1], [0, 1], 'k--')
     plt.legend()
-    plt.savefig('./results/pivot_elastic_net_TN_A.png', dpi=100)
+    # plt.savefig('./results/pivot_elastic_net_TN_A.png', dpi=100)
+    plt.savefig('pivot_elastic_net_TN_A.png', dpi=100)
     plt.show()
 
