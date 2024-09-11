@@ -50,7 +50,8 @@ if __name__ == '__main__':
     list_pivot = []
 
     for each_iter in range(max_iteration):
-        print(each_iter)
+        if each_iter % 500 ==0:
+            print(each_iter)
         pivot = run()
         if pivot is not None:
             list_pivot.append(pivot)
