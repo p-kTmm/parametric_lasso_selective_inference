@@ -18,7 +18,7 @@ def compute_quotient(numerator, denominator):
 def parametric_lasso_cv(X, yz, lamda, b, n, p):
     yz_flatten = yz.flatten()
 
-    clf = linear_model.Lasso(alpha=lamda, fit_intercept=False, normalize=False, tol=1e-10)
+    clf = linear_model.Lasso(alpha=lamda, fit_intercept=False, tol=1e-10)
     clf.fit(X, yz_flatten)
     bhz = clf.coef_
 
