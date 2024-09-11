@@ -25,8 +25,7 @@ def run():
     alpha_for_elastic_net = lamda + delta
     l1_ratio_for_elastic_net = lamda / (lamda + delta)
 
-    regr = ElasticNet(alpha=alpha_for_elastic_net, l1_ratio=l1_ratio_for_elastic_net,
-                      fit_intercept=False, tol=1e-10)
+    regr = ElasticNet(alpha=alpha_for_elastic_net, l1_ratio=l1_ratio_for_elastic_net, fit_intercept=False, tol=1e-10)
 
     regr.fit(X, y)
     bh = regr.coef_
