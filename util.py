@@ -106,7 +106,7 @@ def construct_test_statistic(j, XA, y, A):
 
     # Tính ma trận pseudo-inverse của XA
     inv = np.linalg.pinv(np.dot(XA.T, XA))
-    XAinv = np.dot(XA, inv)
+    XAinv = np.dot(XA, inv)  #XAinv là X_plus
 
     # Tính etaj
     etaj = np.dot(XAinv, ej)
