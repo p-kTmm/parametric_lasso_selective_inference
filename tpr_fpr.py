@@ -5,6 +5,7 @@ from sklearn import linear_model
 import parametric_lasso
 import gen_data
 import util
+import random
 
 def save_to_csv(x_values, y_values, filename):
     df = pd.DataFrame({'Sample size': x_values, 'Value': y_values})
@@ -12,33 +13,24 @@ def save_to_csv(x_values, y_values, filename):
 
 def plot_boxplot_and_save(x_values, y_values_list, ylabel, title, filename):
     plt.figure(figsize=(8, 6))
-    
-    # Create a box plot with IQR
     plt.boxplot(y_values_list, patch_artist=True, boxprops=dict(facecolor="lightblue"))
-    
-    # Add scatter plot for individual data points (each trial's values)
     for i, y_values in enumerate(y_values_list):
-        x_vals = np.full(len(y_values), i + 1)  # x positions for the dots
-        plt.scatter(x_vals, y_values, color='red', alpha=0.5)  # plot dots for each trial
-    
-    # Calculate the mean values for each sample size and plot it as a line
+        x_vals = np.full(len(y_values), i + 1)
+        plt.scatter(x_vals, y_values, color='red', alpha=0.5)
     mean_values = [np.mean(y_values) for y_values in y_values_list]
     plt.plot(range(1, len(x_values) + 1), mean_values, color='blue', marker='o', label='Mean Value')
-
     plt.xticks(range(1, len(x_values) + 1), x_values)
     plt.xlabel('Sample size (n)')
     plt.ylabel(ylabel)
     plt.title(title)
     plt.ylim(0, 1)
     plt.grid(True)
-    plt.legend()  # Show the legend for mean line
-
+    plt.legend()
     plt.savefig(filename)
     plt.close()
 
 def tpr_experiment():
     n_list = [50, 100, 150, 200]
-    # n_list = [50, 100]
     num_trials = 100
     num_reps = 10
     p = 5
@@ -51,47 +43,31 @@ def tpr_experiment():
         tpr_values = []
         for rep in range(num_reps):
             for trial in range(num_trials):
-                beta_vec = [0.25, 0.25] + [0]*(p - 2)
+                beta_vec = [0.25, 0.25] + [0] * (p - 2)
                 cov = np.identity(n)
                 X, y, _ = gen_data.generate(n, p, beta_vec)
-
                 clf = linear_model.Lasso(alpha=lamda, fit_intercept=False, tol=1e-10)
                 clf.fit(X, y)
                 bh = clf.coef_
-
                 y = y.reshape((n, 1))
-
                 A, XA, Ac, XAc, bhA = util.construct_A_XA_Ac_XAc_bhA(X, bh, n, p)
-
                 if len(A) == 0:
                     continue
-
+                j_selected = random.choice(A)
                 total_correctly_detected = 0
                 total_correctly_rejected = 0
-                true_positives = [i for i in A if beta_vec[i] != 0]
-                num_correctly_detected = len(true_positives)
-                total_correctly_detected += num_correctly_detected
-
-                m = len(A)
-                alpha_corrected = alpha / m
-
-                for j_selected in A:
-                    etaj, etajTy = util.construct_test_statistic(j_selected, XA, y, A)
-
-                    list_zk, list_bhz, list_active_set = parametric_lasso.run_parametric_lasso(
-                        X, y, lamda, etaj, n, p, threshold)
-                    p_value = util.p_value(A, bh, list_active_set, list_zk, list_bhz, etaj, etajTy, cov)
-
-                    if p_value <= alpha_corrected and beta_vec[j_selected] != 0:
-                        total_correctly_rejected += 1
-
+                if beta_vec[j_selected] != 0:
+                    total_correctly_detected += 1
+                etaj, etajTy = util.construct_test_statistic(j_selected, XA, y, A)
+                list_zk, list_bhz, list_active_set = parametric_lasso.run_parametric_lasso(X, y, lamda, etaj, n, p, threshold)
+                p_value = util.p_value(A, bh, list_active_set, list_zk, list_bhz, etaj, etajTy, cov)
+                if p_value <= alpha and beta_vec[j_selected] != 0:
+                    total_correctly_rejected += 1
                 if total_correctly_detected > 0:
                     tpr = total_correctly_rejected / total_correctly_detected
                 else:
                     tpr = 0
-
                 tpr_values.append(tpr)
-
         tpr_values_list.append(tpr_values)
         print(f'n={n}, TPR={np.mean(tpr_values):.4f}')
 
@@ -110,47 +86,29 @@ def fpr_experiment():
     for n in n_list:
         fpr_values = []
         for trial in range(num_trials):
-            beta_vec = [0]*p
+            beta_vec = [0] * p
             cov = np.identity(n)
             X, y, _ = gen_data.generate(n, p, beta_vec)
-
             clf = linear_model.Lasso(alpha=lamda, fit_intercept=False, tol=1e-10)
             clf.fit(X, y)
             bh = clf.coef_
-
             y = y.reshape((n, 1))
-
             A, XA, Ac, XAc, bhA = util.construct_A_XA_Ac_XAc_bhA(X, bh, n, p)
-
             if len(A) == 0:
                 continue
-
-            total_false_positives_detected = 0
-            total_false_positives_rejected = 0
             false_positives = [i for i in A if beta_vec[i] == 0]
-            num_false_positives_detected = len(false_positives)
-            total_false_positives_detected += num_false_positives_detected
-
-            m = len(A)
-            alpha_corrected = alpha / m
-
-            for j_selected in A:
-                etaj, etajTy = util.construct_test_statistic(j_selected, XA, y, A)
-
-                list_zk, list_bhz, list_active_set = parametric_lasso.run_parametric_lasso(
-                    X, y, lamda, etaj, n, p, threshold)
-                p_value = util.p_value(A, bh, list_active_set, list_zk, list_bhz, etaj, etajTy, cov)
-
-                if p_value <= alpha_corrected and beta_vec[j_selected] == 0:
-                    total_false_positives_rejected += 1
-
-            if total_false_positives_detected > 0:
-                fpr = total_false_positives_rejected / total_false_positives_detected
-            else:
-                fpr = 0
-
+            if not false_positives:
+                continue
+            j_selected = random.choice(false_positives)
+            total_false_positives_detected = 1
+            total_false_positives_rejected = 0
+            etaj, etajTy = util.construct_test_statistic(j_selected, XA, y, A)
+            list_zk, list_bhz, list_active_set = parametric_lasso.run_parametric_lasso(X, y, lamda, etaj, n, p, threshold)
+            p_value = util.p_value(A, bh, list_active_set, list_zk, list_bhz, etaj, etajTy, cov)
+            if p_value <= alpha:
+                total_false_positives_rejected += 1
+            fpr = total_false_positives_rejected / total_false_positives_detected
             fpr_values.append(fpr)
-
         fpr_values_list.append(fpr_values)
         print(f'n={n}, FPR={np.mean(fpr_values):.4f}')
 
