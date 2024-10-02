@@ -24,7 +24,7 @@ def tpr_experiment():
     n_list = [50, 100, 150, 200]
 
     num_trials = 100  # per repetition
-    num_reps = 10  # number of repetitions
+    num_reps = 2  # number of repetitions
     p = 5  # number of features
     lamda = 0.05
     threshold = 20
