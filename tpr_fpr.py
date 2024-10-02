@@ -39,7 +39,7 @@ def tpr_experiment():
         for rep in range(num_reps):
             for trial in range(num_trials):
                 # Generate data
-                beta_vec = [1, 1] + [0]*(p - 2)
+                beta_vec = [0.25, 0.25] + [0]*(p - 2)
                 cov = np.identity(n)
                 X, y, _ = gen_data.generate(n, p, beta_vec)
 
