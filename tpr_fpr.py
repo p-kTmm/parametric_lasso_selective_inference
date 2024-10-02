@@ -76,8 +76,13 @@ def run_experiment():
     n_values = [100, 200]  # Kích thước mẫu khác nhau
 
     p = 5
-    lamda = 1
-    beta_vec = [2, 2, 0, 0, 0]  # Hai đặc trưng quan trọng
+
+    lamda = 0.05
+    beta_vec = [1, 1, 0, 0, 0]
+    
+    # lamda = 1
+    # beta_vec = [2, 2, 0, 0, 0] 
+    
     num_trials = 100
 
     TPR_results = []
@@ -114,7 +119,12 @@ def plot_results(n_values, TPR_results, FPR_results):
     plt.title('True Positive Rate')
 
     plt.tight_layout()
+
+    # Lưu hình ảnh vào file PNG
+    plt.savefig('tpr_fpr_results.png', dpi=300)
+
     plt.show()
+
 
 
 if __name__ == '__main__':
