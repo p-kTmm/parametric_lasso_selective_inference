@@ -37,8 +37,8 @@ def plot_boxplot_and_save(x_values, y_values_list, ylabel, title, filename):
     plt.close()
 
 def tpr_experiment():
-    # n_list = [50, 100, 150, 200]
-    n_list = [50, 100]
+    n_list = [50, 100, 150, 200]
+    # n_list = [50, 100]
     num_trials = 100
     num_reps = 10
     p = 5
