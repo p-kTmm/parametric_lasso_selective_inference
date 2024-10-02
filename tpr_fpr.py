@@ -50,13 +50,13 @@ def run_tpr_fpr(n, p, lamda, beta_vec, num_trials=100, threshold=20):
                 if p_value < 0.05:  # Đặc trưng không quan trọng nhưng bị chọn
                     incorrectly_detected += 1
 
-        # Tính TPR cho trial này (dựa trên tổng số mẫu được phát hiện đúng)
+        # Tính TPR cho trial này chỉ khi có ít nhất một đặc trưng được phát hiện
         if correctly_detected > 0:
             TPR = correctly_rejected / correctly_detected
         else:
             TPR = 0
 
-        # Tính FPR cho trial này (dựa trên tổng số đặc trưng không quan trọng được phát hiện trong mẫu)
+        # Tính FPR cho trial này (dựa trên số lượng đặc trưng không quan trọng bị chọn nhầm)
         if total_irrelevant_features > 0:
             FPR = incorrectly_detected / total_irrelevant_features
         else:
