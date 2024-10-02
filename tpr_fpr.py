@@ -12,13 +12,27 @@ def save_to_csv(x_values, y_values, filename):
 
 def plot_boxplot_and_save(x_values, y_values_list, ylabel, title, filename):
     plt.figure(figsize=(8, 6))
+    
+    # Create a box plot with IQR
     plt.boxplot(y_values_list, patch_artist=True, boxprops=dict(facecolor="lightblue"))
+    
+    # Add scatter plot for individual data points (each trial's values)
+    for i, y_values in enumerate(y_values_list):
+        x_vals = np.full(len(y_values), i + 1)  # x positions for the dots
+        plt.scatter(x_vals, y_values, color='red', alpha=0.5)  # plot dots for each trial
+    
+    # Calculate the mean values for each sample size and plot it as a line
+    mean_values = [np.mean(y_values) for y_values in y_values_list]
+    plt.plot(range(1, len(x_values) + 1), mean_values, color='blue', marker='o', label='Mean Value')
+
     plt.xticks(range(1, len(x_values) + 1), x_values)
     plt.xlabel('Sample size (n)')
     plt.ylabel(ylabel)
     plt.title(title)
     plt.ylim(0, 1)
     plt.grid(True)
+    plt.legend()  # Show the legend for mean line
+
     plt.savefig(filename)
     plt.close()
 
