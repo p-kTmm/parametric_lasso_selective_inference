@@ -26,7 +26,7 @@ def tpr_experiment():
     num_trials = 100  # per repetition
     num_reps = 10  # number of repetitions
     p = 5  # number of features
-    lamda = 0.05
+    lamda = 1
     threshold = 20
     alpha = 0.05  # significance level for hypothesis testing
     tpr_values = []  # To store TPR values
@@ -95,7 +95,7 @@ def fpr_experiment():
 
     num_trials = 100  # number of trials
     p = 5
-    lamda = 0.05
+    lamda =1
     threshold = 20
     alpha = 0.05  # significance level for hypothesis testing
     fpr_values = []  # To store FPR values
