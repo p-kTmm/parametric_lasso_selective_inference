@@ -40,7 +40,7 @@ def tpr_experiment():
                 cov = np.identity(n)
                 X, y, _ = gen_data.generate(n, p, beta_vec)
 
-                clf = linear_model.Lasso(alpha=lamda, fit_intercept=False)
+                clf = linear_model.Lasso(alpha=lamda, fit_intercept=False, tol=1e-10)
                 clf.fit(X, y)
                 bh = clf.coef_
 
@@ -99,7 +99,7 @@ def fpr_experiment():
             cov = np.identity(n)
             X, y, _ = gen_data.generate(n, p, beta_vec)
 
-            clf = linear_model.Lasso(alpha=lamda, fit_intercept=False)
+            clf = linear_model.Lasso(alpha=lamda, fit_intercept=False, tol=1e-10)
             clf.fit(X, y)
             bh = clf.coef_
 
