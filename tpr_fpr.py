@@ -72,7 +72,9 @@ def run_tpr_fpr(n, p, lamda, beta_vec, num_trials=100, threshold=20):
 
 
 def run_experiment():
-    n_values = [100, 200, 300, 400, 500]  # Kích thước mẫu khác nhau
+    # n_values = [100, 200, 300, 400, 500]  # Kích thước mẫu khác nhau
+    n_values = [100, 200]  # Kích thước mẫu khác nhau
+
     p = 5
     lamda = 1
     beta_vec = [2, 2, 0, 0, 0]  # Hai đặc trưng quan trọng
