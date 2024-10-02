@@ -22,11 +22,10 @@ def plot_and_save(x_values, y_values, ylabel, title, filename):
 
 def tpr_experiment():
     n_list = [50, 100, 150, 200]
-
     num_trials = 100  # per repetition
     num_reps = 10  # number of repetitions
     p = 5  # number of features
-    lamda = 1
+    lamda = 0.05
     threshold = 20
     alpha = 0.05  # significance level for hypothesis testing
     tpr_values = []  # To store TPR values
@@ -92,10 +91,9 @@ def tpr_experiment():
 
 def fpr_experiment():
     n_list = [100, 200, 300, 400, 500]
-
     num_trials = 100  # number of trials
     p = 5
-    lamda =1
+    lamda = 0.05
     threshold = 20
     alpha = 0.05  # significance level for hypothesis testing
     fpr_values = []  # To store FPR values
