@@ -22,7 +22,6 @@ def plot_and_save(x_values, y_values, ylabel, title, filename):
 
 def tpr_experiment():
     n_list = [50, 100, 150, 200]
-    n_list = [50, 100]
 
     num_trials = 100  # per repetition
     num_reps = 10  # number of repetitions
@@ -40,7 +39,7 @@ def tpr_experiment():
         for rep in range(num_reps):
             for trial in range(num_trials):
                 # Generate data
-                beta_vec = [0.25, 0.25] + [0]*(p - 2)
+                beta_vec = [1, 1] + [0]*(p - 2)
                 cov = np.identity(n)
                 X, y, _ = gen_data.generate(n, p, beta_vec)
 
@@ -93,7 +92,6 @@ def tpr_experiment():
 
 def fpr_experiment():
     n_list = [100, 200, 300, 400, 500]
-    n_list = [100, 200]
 
     num_trials = 100  # number of trials
     p = 5
