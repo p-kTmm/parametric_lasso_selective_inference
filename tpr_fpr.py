@@ -1,17 +1,36 @@
 import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
 from sklearn import linear_model
 import parametric_lasso
 import gen_data
 import util
 
+def save_to_csv(x_values, y_values, filename):
+    df = pd.DataFrame({'Sample size': x_values, 'Value': y_values})
+    df.to_csv(filename, index=False)
+
+def plot_and_save(x_values, y_values, ylabel, title, filename):
+    plt.figure(figsize=(8, 6))
+    plt.plot(x_values, y_values, marker='o', linestyle='-', color='b')
+    plt.xlabel('Sample size (n)')
+    plt.ylabel(ylabel)
+    plt.title(title)
+    plt.grid(True)
+    plt.savefig(filename)
+    plt.close()
+
 def tpr_experiment():
     n_list = [50, 100, 150, 200]
+    n_list = [50, 100]
+
     num_trials = 100  # per repetition
     num_reps = 10  # number of repetitions
     p = 5  # number of features
     lamda = 0.05
     threshold = 20
     alpha = 0.05  # significance level for hypothesis testing
+    tpr_values = []  # To store TPR values
 
     for n in n_list:
         total_correctly_detected = 0  # number of times truly positive features are selected by Lasso
@@ -65,15 +84,23 @@ def tpr_experiment():
         else:
             tpr = 0
 
+        tpr_values.append(tpr)  # Store TPR value
         print(f'n={n}, TPR={tpr:.4f}')
+
+    # Save results to CSV and plot
+    save_to_csv(n_list, tpr_values, 'tpr_results.csv')
+    plot_and_save(n_list, tpr_values, 'True Positive Rate (TPR)', 'TPR vs Sample Size', 'tpr_plot.png')
 
 def fpr_experiment():
     n_list = [100, 200, 300, 400, 500]
+    n_list = [100, 200]
+
     num_trials = 100  # number of trials
     p = 5
     lamda = 0.05
     threshold = 20
     alpha = 0.05  # significance level for hypothesis testing
+    fpr_values = []  # To store FPR values
 
     for n in n_list:
         total_false_positives_detected = 0
@@ -126,7 +153,12 @@ def fpr_experiment():
         else:
             fpr = 0
 
+        fpr_values.append(fpr)  # Store FPR value
         print(f'n={n}, FPR={fpr:.4f}')
+
+    # Save results to CSV and plot
+    save_to_csv(n_list, fpr_values, 'fpr_results.csv')
+    plot_and_save(n_list, fpr_values, 'False Positive Rate (FPR)', 'FPR vs Sample Size', 'fpr_plot.png')
 
 if __name__ == '__main__':
     print('Running TPR experiments...')
