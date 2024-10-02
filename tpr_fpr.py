@@ -3,6 +3,7 @@ from sklearn import linear_model
 import parametric_lasso
 import gen_data
 import util
+import matplotlib.pyplot as plt
 
 
 def run_tpr_fpr(n, p, lamda, beta_vec, num_trials=100, threshold=20):
@@ -49,13 +50,13 @@ def run_tpr_fpr(n, p, lamda, beta_vec, num_trials=100, threshold=20):
                 if p_value < 0.05:  # Đặc trưng không quan trọng nhưng bị chọn
                     incorrectly_detected += 1
 
-        # Tính TPR cho trial này
+        # Tính TPR cho trial này (dựa trên tổng số mẫu được phát hiện đúng)
         if correctly_detected > 0:
             TPR = correctly_rejected / correctly_detected
         else:
             TPR = 0
 
-        # Tính FPR cho trial này
+        # Tính FPR cho trial này (dựa trên tổng số đặc trưng không quan trọng được phát hiện trong mẫu)
         if total_irrelevant_features > 0:
             FPR = incorrectly_detected / total_irrelevant_features
         else:
@@ -72,16 +73,13 @@ def run_tpr_fpr(n, p, lamda, beta_vec, num_trials=100, threshold=20):
 
 
 def run_experiment():
-    # n_values = [100, 200, 300, 400, 500]  # Kích thước mẫu khác nhau
-    n_values = [100, 200]  # Kích thước mẫu khác nhau
-
+    n_values = [100, 200, 300, 400, 500]  # Kích thước mẫu khác nhau
     p = 5
+    # lamda = 1
+    # beta_vec = [2, 2, 0, 0, 0]  # Hai đặc trưng quan trọng
 
     lamda = 0.05
     beta_vec = [1, 1, 0, 0, 0]
-    
-    # lamda = 1
-    # beta_vec = [2, 2, 0, 0, 0] 
     
     num_trials = 100
 
@@ -100,8 +98,6 @@ def run_experiment():
 
 
 def plot_results(n_values, TPR_results, FPR_results):
-    import matplotlib.pyplot as plt
-
     plt.figure(figsize=(10, 5))
 
     # Vẽ FPR
@@ -109,22 +105,22 @@ def plot_results(n_values, TPR_results, FPR_results):
     plt.plot(n_values, FPR_results, 'o-', label='FPR')
     plt.xlabel('Sample size')
     plt.ylabel('FPR')
+    plt.ylim(0, 1)  # Đảm bảo FPR nằm trong khoảng từ 0 đến 1
     plt.title('False Positive Rate')
+    plt.legend()
 
     # Vẽ TPR
     plt.subplot(1, 2, 2)
     plt.plot(n_values, TPR_results, 'o-', label='TPR', color='green')
     plt.xlabel('Sample size')
     plt.ylabel('TPR')
+    plt.ylim(0, 1)  # Đảm bảo TPR nằm trong khoảng từ 0 đến 1
     plt.title('True Positive Rate')
+    plt.legend()
 
     plt.tight_layout()
-
-    # Lưu hình ảnh vào file PNG
-    plt.savefig('tpr_fpr_results.png', dpi=300)
-
+    plt.savefig('tpr_fpr_results.png', dpi=300)  # Lưu biểu đồ
     plt.show()
-
 
 
 if __name__ == '__main__':
