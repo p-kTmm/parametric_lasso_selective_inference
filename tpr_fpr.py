@@ -6,7 +6,7 @@ import parametric_lasso
 import gen_data
 import util
 
-def save_to_csv_sign(x_values, y_values_list, filename):
+def save_to_csv(x_values, y_values_list, filename):
     data = {'Sample size': [], 'Values': []}
     
     for x, y_values in zip(x_values, y_values_list):
