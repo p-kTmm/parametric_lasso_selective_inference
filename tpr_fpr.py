@@ -6,13 +6,20 @@ import parametric_lasso
 import gen_data
 import util
 
-def save_to_csv(x_values, y_values, filename):
-    df = pd.DataFrame({'Sample size': x_values, 'Value': y_values})
+def save_to_csv_sign(x_values, y_values_list, filename):
+    data = {'Sample size': [], 'Values': []}
+    
+    for x, y_values in zip(x_values, y_values_list):
+        data['Sample size'].extend([x] * len(y_values))
+        data['Values'].extend(y_values)
+    
+    df = pd.DataFrame(data)
     df.to_csv(filename, index=False)
 
 def plot_boxplot_and_save(x_values, y_values_list, ylabel, title, filename):
     plt.figure(figsize=(8, 6))
-    plt.boxplot(y_values_list, patch_artist=True, boxprops=dict(facecolor="lightblue"))
+    # Removing outliers by setting showfliers=False
+    plt.boxplot(y_values_list, patch_artist=True, boxprops=dict(facecolor="lightblue"), showfliers=False)
     mean_values = [np.mean(y_values) for y_values in y_values_list]
     plt.plot(range(1, len(x_values) + 1), mean_values, color='blue', marker='o', label='Mean Value')
     plt.xticks(range(1, len(x_values) + 1), x_values)
@@ -23,14 +30,14 @@ def plot_boxplot_and_save(x_values, y_values_list, ylabel, title, filename):
     plt.grid(True)
     plt.legend()
     plt.savefig(filename)
-    plt.close()
+    plt.show()
 
 def tpr_experiment():
     n_list = [50, 100, 150, 200]
     num_trials = 100
     num_reps = 10
     p = 5
-    lamda = 0.01
+    lamda = 0.05
     threshold = 20
     alpha = 0.05
     tpr_values_list = []
@@ -83,14 +90,14 @@ def tpr_experiment():
         tpr_values_list.append(tpr_values)
         print(f'n={n}, TPR={np.mean(tpr_values):.4f}')
 
-    save_to_csv(n_list, [np.mean(tpr) for tpr in tpr_values_list], 'tpr_results.csv')
+    save_to_csv(n_list, tpr_values_list, 'tpr_results.csv')
     plot_boxplot_and_save(n_list, tpr_values_list, 'True Positive Rate (TPR)', 'TPR vs Sample Size', 'tpr_boxplot.png')
 
 def fpr_experiment():
     n_list = [100, 200, 300, 400, 500]
     num_trials = 100
     p = 5
-    lamda = 0.01
+    lamda = 0.05
     threshold = 20
     alpha = 0.05
     fpr_values_list = []
@@ -142,7 +149,7 @@ def fpr_experiment():
         fpr_values_list.append(fpr_values)
         print(f'n={n}, FPR={np.mean(fpr_values):.4f}')
 
-    save_to_csv(n_list, [np.mean(fpr) for fpr in fpr_values_list], 'fpr_results.csv')
+    save_to_csv(n_list, fpr_values_list, 'fpr_results.csv')
     plot_boxplot_and_save(n_list, fpr_values_list, 'False Positive Rate (FPR)', 'FPR vs Sample Size', 'fpr_boxplot.png')
 
 if __name__ == '__main__':
