@@ -34,7 +34,7 @@ def tpr_experiment():
     num_trials = 100
     num_reps = 10
     p = 5
-    lamda = 0.1
+    lamda = 1
     threshold = 20
     alpha = 0.05
     tpr_values_list = []
@@ -78,7 +78,7 @@ def fpr_experiment():
     n_list = [100, 200, 300, 400, 500]
     num_trials = 100
     p = 5
-    lamda = 0.1
+    lamda = 1
     threshold = 20
     alpha = 0.05
     fpr_values_list = []
