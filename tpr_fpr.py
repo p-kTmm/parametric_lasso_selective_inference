@@ -12,27 +12,16 @@ def save_to_csv(x_values, y_values, filename):
 
 def plot_boxplot_and_save(x_values, y_values_list, ylabel, title, filename):
     plt.figure(figsize=(8, 6))
-    
-    # Create a box plot with IQR
     plt.boxplot(y_values_list, patch_artist=True, boxprops=dict(facecolor="lightblue"))
-    
-    # Add scatter plot for individual data points (each trial's values)
-    for i, y_values in enumerate(y_values_list):
-        x_vals = np.full(len(y_values), i + 1)  # x positions for the dots
-        plt.scatter(x_vals, y_values, color='red', alpha=0.5)  # plot dots for each trial
-    
-    # Calculate the mean values for each sample size and plot it as a line
     mean_values = [np.mean(y_values) for y_values in y_values_list]
     plt.plot(range(1, len(x_values) + 1), mean_values, color='blue', marker='o', label='Mean Value')
-    
     plt.xticks(range(1, len(x_values) + 1), x_values)
     plt.xlabel('Sample size (n)')
     plt.ylabel(ylabel)
     plt.title(title)
     plt.ylim(0, 1)
     plt.grid(True)
-    plt.legend()  # Show the legend for mean line
-    
+    plt.legend()
     plt.savefig(filename)
     plt.close()
 
@@ -65,31 +54,26 @@ def tpr_experiment():
                 A, XA, Ac, XAc, bhA = util.construct_A_XA_Ac_XAc_bhA(X, bh, n, p)
 
                 if len(A) == 0:
-                    continue  # Skip trials where no features are selected
+                    continue
 
-                # Identify true positives in A
                 true_positives = [i for i in A if beta_vec[i] != 0]
 
                 if len(true_positives) == 0:
-                    continue  # Skip trials where no true positives are detected
+                    continue
 
-                # Randomly select one true positive to test
                 j_selected = np.random.choice(true_positives)
 
-                # Conduct the test for the selected true positive
                 etaj, etajTy = util.construct_test_statistic(j_selected, XA, y, A)
 
                 list_zk, list_bhz, list_active_set = parametric_lasso.run_parametric_lasso(
                     X, y, lamda, etaj, n, p, threshold)
                 p_value = util.p_value(A, bh, list_active_set, list_zk, list_bhz, etaj, etajTy, cov)
 
-                total_correctly_detected += 1  # Update the count of correctly detected features
+                total_correctly_detected += 1
 
-                # Use the standard alpha level without correction
                 if p_value <= alpha:
-                    total_correctly_rejected += 1  # Update the count if null hypothesis is rejected
+                    total_correctly_rejected += 1
 
-            # Compute TPR for this repetition
             if total_correctly_detected > 0:
                 tpr = total_correctly_rejected / total_correctly_detected
             else:
@@ -99,7 +83,6 @@ def tpr_experiment():
         tpr_values_list.append(tpr_values)
         print(f'n={n}, TPR={np.mean(tpr_values):.4f}')
 
-    # Save and plot results
     save_to_csv(n_list, [np.mean(tpr) for tpr in tpr_values_list], 'tpr_results.csv')
     plot_boxplot_and_save(n_list, tpr_values_list, 'True Positive Rate (TPR)', 'TPR vs Sample Size', 'tpr_boxplot.png')
 
@@ -117,7 +100,7 @@ def fpr_experiment():
         total_false_positives_detected = 0
         total_false_positives_rejected = 0
         for trial in range(num_trials):
-            beta_vec = [0]*p  # All betas are zero
+            beta_vec = [0]*p
             cov = np.identity(n)
             X, y, _ = gen_data.generate(n, p, beta_vec)
 
@@ -130,31 +113,26 @@ def fpr_experiment():
             A, XA, Ac, XAc, bhA = util.construct_A_XA_Ac_XAc_bhA(X, bh, n, p)
 
             if len(A) == 0:
-                continue  # Skip trials where no features are selected
+                continue
 
-            # Identify false positives in A (since all betas are zero, all selected features are false positives)
             false_positives = [i for i in A if beta_vec[i] == 0]
 
             if len(false_positives) == 0:
-                continue  # Skip trials where no false positives are detected
+                continue
 
-            # Randomly select one false positive to test
             j_selected = np.random.choice(false_positives)
 
-            # Conduct the test for the selected false positive
             etaj, etajTy = util.construct_test_statistic(j_selected, XA, y, A)
 
             list_zk, list_bhz, list_active_set = parametric_lasso.run_parametric_lasso(
                 X, y, lamda, etaj, n, p, threshold)
             p_value = util.p_value(A, bh, list_active_set, list_zk, list_bhz, etaj, etajTy, cov)
 
-            total_false_positives_detected += 1  # Update the count of false positives detected
+            total_false_positives_detected += 1
 
-            # Use the standard alpha level without correction
             if p_value <= alpha:
-                total_false_positives_rejected += 1  # Update the count if null hypothesis is rejected
+                total_false_positives_rejected += 1
 
-        # Compute FPR for this sample size
         if total_false_positives_detected > 0:
             fpr = total_false_positives_rejected / total_false_positives_detected
         else:
@@ -164,7 +142,6 @@ def fpr_experiment():
         fpr_values_list.append(fpr_values)
         print(f'n={n}, FPR={np.mean(fpr_values):.4f}')
 
-    # Save and plot results
     save_to_csv(n_list, [np.mean(fpr) for fpr in fpr_values_list], 'fpr_results.csv')
     plot_boxplot_and_save(n_list, fpr_values_list, 'False Positive Rate (FPR)', 'FPR vs Sample Size', 'fpr_boxplot.png')
 
