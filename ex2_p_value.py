@@ -12,8 +12,8 @@ def run():
     lamda = 0.05
     beta_vec = [1, 1, 0, 0, 0]
 
-    lamda = 1
-    beta_vec = [0.25, 0.25, 0, 0, 0]
+    # lamda = 1
+    # beta_vec = [0.25, 0.25, 0, 0, 0]
     
     cov = np.identity(n)
 
