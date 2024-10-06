@@ -6,10 +6,20 @@ import parametric_lasso
 import gen_data
 import util
 
-def calculate_p_value_no_conditioning(etaTx):
-    # compute two-tailed p-value
-    p_value = 2 * min(1 - norm.cdf(etaTx), norm.cdf(etaTx))
+def calculate_p_value_no_conditioning(etaTx, std_err):
+    # Normalize etaTx with standard error to get z-score
+    z_score = etaTx / std_err
+    
+    # Compute two-tailed p-value based on the z-score
+    p_value = 2 * min(1 - norm.cdf(z_score), norm.cdf(z_score))
     return p_value
+
+def estimate_standard_error(XA, eta_j):
+    # Standard error estimation using the covariance structure
+    # std_err = sqrt(eta_j^T * Cov(XA) * eta_j)
+    cov_matrix = np.linalg.inv(np.dot(XA.T, XA))  # Covariance matrix of the active set XA
+    std_err = np.sqrt(np.dot(np.dot(eta_j.T, cov_matrix), eta_j))
+    return std_err
 
 def run():
     n = 100
@@ -37,8 +47,11 @@ def run():
         # Calculate eta_j and eta_j^T y
         etaj, etajTy = util.construct_test_statistic(j_selected, XA, y, A)
         
-        # Here we calculate p-value without conditioning using a normal distribution
-        p_value_no_conditioning = calculate_p_value_no_conditioning(etajTy)
+        # Estimate the standard error for the test statistic
+        std_err = estimate_standard_error(XA, etaj)
+
+        # Calculate p-value without conditioning using a normal distribution
+        p_value_no_conditioning = calculate_p_value_no_conditioning(etajTy, std_err)
 
         print('Feature', j_selected + 1, ' True Beta:', beta_vec[j_selected], 
               ' Unconditioned p-value:', '{:.4f}'.format(p_value_no_conditioning))
