@@ -15,11 +15,13 @@ def calculate_p_value_no_conditioning(etaTx, std_err):
     return p_value
 
 def estimate_standard_error(XA, eta_j):
-    # Standard error estimation using the covariance structure
-    # std_err = sqrt(eta_j^T * Cov(XA) * eta_j)
+    # Ensure eta_j is reshaped to match the dimensionality of XA
+    eta_j = eta_j.reshape(-1, 1)  # Convert to column vector if necessary
+
+    # Standard error estimation using the covariance structure of XA
     cov_matrix = np.linalg.inv(np.dot(XA.T, XA))  # Covariance matrix of the active set XA
     std_err = np.sqrt(np.dot(np.dot(eta_j.T, cov_matrix), eta_j))
-    return std_err
+    return std_err[0, 0]  # Extract scalar from the result
 
 def run():
     n = 100
