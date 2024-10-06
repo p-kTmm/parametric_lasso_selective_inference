@@ -16,7 +16,7 @@ def calculate_p_value_no_conditioning(etaTx):
 def run():
     n = 100
     p = 5
-    lamda = 0.05
+    lamda = 0.01
     beta_vec = [1, 1, 0, 0, 0]
 
     cov = np.identity(n)
@@ -89,7 +89,7 @@ def tpr_experiment():
             total_correctly_detected = 0
             total_correctly_rejected = 0
             for trial in range(num_trials):
-                beta_vec = [0.25, 0.25] + [0] * (p - 2)
+                beta_vec = [1,1] + [0] * (p - 2)
                 cov = np.identity(n)
                 X, y, _ = gen_data.generate(n, p, beta_vec)
 
