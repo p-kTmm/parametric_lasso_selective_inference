@@ -15,7 +15,7 @@ def calculate_p_value_no_conditioning(etaTx, std_err):
     return p_value
 
 def estimate_standard_error(XA, eta_j):
-    # Ensure eta_j is reshaped to match the dimensionality of XA
+    # Reshape eta_j to match the dimensions of the active set XA
     eta_j = eta_j.reshape(-1, 1)  # Convert to column vector if necessary
 
     # Standard error estimation using the covariance structure of XA
@@ -46,9 +46,12 @@ def run():
         return None
 
     for j_selected in A:
-        # Calculate eta_j and eta_j^T y
+        # Calculate eta_j for the active set, not the full dataset
         etaj, etajTy = util.construct_test_statistic(j_selected, XA, y, A)
         
+        # Ensure eta_j has the correct shape, matching the number of selected features
+        etaj = etaj[:len(A)]  # Only use the part of eta_j that corresponds to the active set
+
         # Estimate the standard error for the test statistic
         std_err = estimate_standard_error(XA, etaj)
 
