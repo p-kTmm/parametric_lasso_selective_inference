@@ -13,7 +13,7 @@ warnings.filterwarnings("ignore", category=ConvergenceWarning)
 
 def run_simulation(num_simulations=500):
     # Parameters
-    alpha = 0.18
+    alpha = 0.5
     p = 200
     # s = 16
     s = 0
