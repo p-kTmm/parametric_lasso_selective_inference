@@ -46,7 +46,7 @@ def run_simulation(num_simulations=500):
         # bh = clf.coef_
 
 
-        res_kA = las_kA(X, y, A0=A0, n_vec=n_vec, alpha=alpha)
+        res_kA = gen_data.las_kA(X, y, A0=A0, n_vec=n_vec, alpha=alpha)
         bh = res_kA['beta_kA']
         
         y = y.reshape((n, 1))
