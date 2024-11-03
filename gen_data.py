@@ -61,7 +61,6 @@ def generate_non_normal(n, p, beta_vec):
 
 # =================================================================TRANSFER LEARNING====================================================================#
 
-
 import numpy as np
 from sklearn.linear_model import Lasso
 
@@ -139,24 +138,20 @@ def Coef_gen(s, h, q=30, size_A0=0, M=10, sig_beta=0.3, sig_delta1=0.3,
     return {'W': W, 'beta0': beta0}
 
 
-def gen_data_transfer():
+def gen_data_transfer(
+    n_vec=None, s=16, h=6, q=32, size_A0=12, M=20, sig_beta=0.3,
+    sig_delta1=0.3, sig_delta2=0.5, p=500, exact=False
+):
     np.random.seed(123)
-    # Parameters
-    alpha = 0.1
-    p = 500
-    s = 16
-    M = 20
-    sig_beta = 0.3
-    n0 = 150
-    n_vec = [n0] + [100] * M
-    size_A0 = 12  # Number of relevant auxiliary tasks
-    h = 6
-    A0 = list(range(size_A0))
-
+    # Default n_vec if not provided
+    if n_vec is None:
+        n0 = 150
+        n_vec = [n0] + [100] * M
+    
     # Generate coefficients
     coef_all = Coef_gen(
-        s, h=h, q=2 * s, size_A0=size_A0, M=M, sig_beta=sig_beta,
-        sig_delta1=sig_beta, sig_delta2=sig_beta + 0.2, p=p, exact=False
+        s=s, h=h, q=q, size_A0=size_A0, M=M, sig_beta=sig_beta,
+        sig_delta1=sig_delta1, sig_delta2=sig_delta2, p=p, exact=exact
     )
     B = np.column_stack([coef_all['beta0'], coef_all['W']])
     beta0 = coef_all['beta0']
@@ -179,4 +174,4 @@ def gen_data_transfer():
     y = np.concatenate(y_list)
     y_true = np.concatenate(y_true_list)
     
-    return X, y, y_true
+    return X, y, y_true, beta0
