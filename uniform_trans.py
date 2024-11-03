@@ -6,7 +6,7 @@ import parametric_lasso
 import gen_data
 import util
 
-def run_simulation(num_simulations=1):
+def run_simulation(num_simulations=50):
     # Parameters
     lamda = alpha = 0.05
     p = 500
@@ -26,7 +26,7 @@ def run_simulation(num_simulations=1):
     # Define A0 (list of relevant task indices)
     A0 = list(range(size_A0))
 
-    n = n_vec[0]
+    n = sum(n_vec)
     cov = np.identity(n)
     threshold = 20
     p_values = []
@@ -35,8 +35,7 @@ def run_simulation(num_simulations=1):
         X, y, y_true, beta0 = gen_data.gen_data_transfer(n_vec=n_vec, s=s, h=h, q=q, size_A0=size_A0, M=M, 
                                  sig_beta=sig_beta, sig_delta1=sig_delta1, 
                                  sig_delta2=sig_delta2, p=p, exact=exact)
-        X, y = X[:n_vec[0]], y[:n_vec[0]]
-        
+
         clf = linear_model.Lasso(alpha=lamda, fit_intercept=False, tol=1e-10)
         clf.fit(X, y)
         bh = clf.coef_
