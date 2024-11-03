@@ -5,6 +5,11 @@ import matplotlib.pyplot as plt
 import parametric_lasso
 import gen_data
 import util
+import warnings
+from sklearn.exceptions import ConvergenceWarning
+
+# Tắt cảnh báo ConvergenceWarning
+warnings.filterwarnings("ignore", category=ConvergenceWarning)
 
 def run_simulation(num_simulations=1):
     # Parameters
