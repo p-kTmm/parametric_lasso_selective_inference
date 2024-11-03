@@ -26,7 +26,7 @@ def run_simulation(num_simulations=1):
     # Define A0 (list of relevant task indices)
     A0 = list(range(size_A0))
 
-    
+    print(n)
     cov = np.identity(n)
     threshold = 20
     p_values = []
