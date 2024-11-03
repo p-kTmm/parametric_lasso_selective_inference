@@ -13,7 +13,7 @@ warnings.filterwarnings("ignore", category=ConvergenceWarning)
 
 def run_simulation(num_simulations=500):
     # Parameters
-    lamda = alpha = 0.05
+    lamda = alpha = 0.1
     p = 500
     # s = 16
     s = 0
