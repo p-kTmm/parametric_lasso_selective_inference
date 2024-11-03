@@ -142,7 +142,7 @@ def gen_data_transfer(
     n_vec=None, s=16, h=6, q=32, size_A0=12, M=20, sig_beta=0.3,
     sig_delta1=0.3, sig_delta2=0.5, p=500, exact=False
 ):
-    np.random.seed(123)
+    # np.random.seed(123)
     # Default n_vec if not provided
     if n_vec is None:
         n0 = 150
