@@ -91,13 +91,13 @@ def las_kA(X, y, A0, n_vec, alpha):
 
         lasso = Lasso(alpha=alpha, fit_intercept=False, tol=1e-10).fit(X_kA, y_A)
         w_kA = lasso.coef_
-        w_kA[np.abs(w_kA) < alpha] = 0
+        # w_kA[np.abs(w_kA) < alpha] = 0
 
         residual = y[ind_1] - X[ind_1] @ w_kA
         lasso_delta = Lasso(alpha=alpha, fit_intercept=False, tol=1e-10)
         lasso_delta.fit(X[ind_1], residual)
         delta_kA = lasso_delta.coef_
-        delta_kA[np.abs(delta_kA) < alpha] = 0
+        # delta_kA[np.abs(delta_kA) < alpha] = 0
 
         beta_kA = w_kA + delta_kA
     else:
