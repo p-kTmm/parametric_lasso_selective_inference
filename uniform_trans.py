@@ -15,7 +15,7 @@ def run_simulation(num_simulations=1):
     M = 20
     sig_beta = 0.3
     n0 = 150
-    n = n_vec = [n0] + [100] * M
+    n_vec = [n0] + [100] * M
     size_A0 = 12
     h = 6
     q = 2 * s
@@ -26,6 +26,7 @@ def run_simulation(num_simulations=1):
     # Define A0 (list of relevant task indices)
     A0 = list(range(size_A0))
 
+    n = sum(n_vec)
     print(n)
     cov = np.identity(n)
     threshold = 20
