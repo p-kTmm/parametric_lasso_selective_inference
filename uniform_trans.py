@@ -68,7 +68,8 @@ def run_simulation(num_simulations=500):
             p_value = util.p_value(
                 A, bh, list_active_set, list_zk, list_bhz, etaj, etajTy, cov)
 
-            p_values.append(p_value)
+            if p_value:
+                p_values.append(p_value)
 
     # Plot the histogram of p-values
     plt.hist(p_values, bins=20, edgecolor='k', density=True)
