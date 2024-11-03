@@ -39,12 +39,6 @@ def run_simulation(num_simulations=1000):
         clf = linear_model.Lasso(alpha=lamda, fit_intercept=False, tol=1e-10)
         clf.fit(X, y)
         bh = clf.coef_
-
-        def count_near_zero_elements(beta, threshold=1e-20):
-            return np.sum(beta==0)
-        count_beta0_near_zero = count_near_zero_elements(bh)
-
-        print(f"Number of elements in beta_init has beta==0: {count_beta0_near_zero}")
         
         y = y.reshape((n, 1))
 
