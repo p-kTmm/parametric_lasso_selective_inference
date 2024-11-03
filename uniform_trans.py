@@ -36,7 +36,7 @@ def run_simulation(num_simulations=500):
     cov = np.identity(n)
     threshold = 20
     p_values = []
-    lamda = alpha*n
+    lamda = alpha/n
 
     
     for sim in range(num_simulations):
