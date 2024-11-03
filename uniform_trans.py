@@ -13,8 +13,8 @@ warnings.filterwarnings("ignore", category=ConvergenceWarning)
 
 def run_simulation(num_simulations=500):
     # Parameters
-    lamda = alpha = 0.1
-    p = 500
+    alpha = 0.05
+    p = 200
     # s = 16
     s = 0
     M = 20
@@ -36,7 +36,9 @@ def run_simulation(num_simulations=500):
     cov = np.identity(n)
     threshold = 20
     p_values = []
+    lamda = alpha*n
 
+    
     for sim in range(num_simulations):
         X, y, y_true, beta0 = gen_data.gen_data_transfer(n_vec=n_vec, s=s, h=h, q=q, size_A0=size_A0, M=M, 
                                  sig_beta=sig_beta, sig_delta1=sig_delta1, 
