@@ -6,12 +6,11 @@ import parametric_lasso
 import gen_data
 import util
 
-def run_simulation(num_simulations=10000):
+def run_simulation(num_simulations=50):
     n = 100
     p = 5
     lamda = 0.05
     beta_vec = [0, 0, 0, 0, 0]  # Under the null hypothesis
-    beta_vec = [1, 1, 0, 0, 0]
 
     cov = np.identity(n)
     threshold = 20
