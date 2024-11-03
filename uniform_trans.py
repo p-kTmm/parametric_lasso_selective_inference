@@ -31,7 +31,8 @@ def run_simulation(num_simulations=500):
     # Define A0 (list of relevant task indices)
     A0 = list(range(size_A0))
 
-    n = n_vec[0]
+    # n = n_vec[0]
+    n = sum(n_vec)
     cov = np.identity(n)
     threshold = 20
     p_values = []
