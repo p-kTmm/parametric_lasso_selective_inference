@@ -89,7 +89,7 @@ def las_kA(X, y, A0, n_vec, alpha):
         y_A = y[ind_kA]
         X_kA = X[ind_kA]
 
-        lasso = Lasso(alpha=alpha, fit_intercept=False).fit(X_kA, y_A)
+        lasso = Lasso(alpha=alpha, fit_intercept=False, tol=1e-10).fit(X_kA, y_A)
         w_kA = lasso.coef_
         w_kA[np.abs(w_kA) < alpha] = 0
 
