@@ -22,7 +22,7 @@ def run_simulation(num_simulations=1000):
         clf = linear_model.Lasso(alpha=lamda, fit_intercept=False, tol=1e-10)
         clf.fit(X, y)
         bh = clf.coef_
-        lamda = lamda/n
+
         y = y.reshape((n, 1))
 
         A, XA, Ac, XAc, bhA = util.construct_A_XA_Ac_XAc_bhA(X, bh, n, p)
