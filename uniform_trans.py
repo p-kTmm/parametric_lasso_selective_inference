@@ -41,16 +41,16 @@ def run_simulation(num_simulations=500):
         X, y, y_true, beta0 = gen_data.gen_data_transfer(n_vec=n_vec, s=s, h=h, q=q, size_A0=size_A0, M=M, 
                                  sig_beta=sig_beta, sig_delta1=sig_delta1, 
                                  sig_delta2=sig_delta2, p=p, exact=exact)
-        X, y = X[:n_vec[0]], y[:n_vec[0]]
-        clf = linear_model.Lasso(alpha=lamda, fit_intercept=False, tol=1e-10)
-        clf.fit(X, y)
-        bh = clf.coef_
-        print(bh)
-
-
-        # res_kA = gen_data.las_kA(X, y, A0=A0, n_vec=n_vec, alpha=alpha)
-        # bh = res_kA['beta_kA']
+        # X, y = X[:n_vec[0]], y[:n_vec[0]]
+        # clf = linear_model.Lasso(alpha=lamda, fit_intercept=False, tol=1e-10)
+        # clf.fit(X, y)
+        # bh = clf.coef_
         # print(bh)
+
+
+        res_kA = gen_data.las_kA(X, y, A0=A0, n_vec=n_vec, alpha=alpha)
+        bh = res_kA['beta_kA']
+        print(bh)
         
         y = y.reshape((n, 1))
 
