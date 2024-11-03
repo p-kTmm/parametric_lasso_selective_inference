@@ -7,13 +7,23 @@ import gen_data
 import util
 
 def run_simulation(num_simulations=50):
-    n = 100
-    p = 5
-    lamda = 0.05
-    beta_vec = [0, 0, 0, 0, 0]  # Under the null hypothesis
-
-
-
+    # Parameters
+    lamda = alpha = 0.1
+    p = 500
+    s = 16
+    M = 20
+    sig_beta = 0.3
+    n0 = 150
+    n = n_vec = [n0] + [100] * M
+    size_A0 = 12
+    h = 6
+    q = 2 * s
+    sig_delta1 = sig_beta
+    sig_delta2 = sig_beta + 0.2
+    exact = False
+    
+    # Define A0 (list of relevant task indices)
+    A0 = list(range(size_A0))
 
     
     cov = np.identity(n)
@@ -21,7 +31,9 @@ def run_simulation(num_simulations=50):
     p_values = []
 
     for sim in range(num_simulations):
-        X, y, _ = gen_data.generate(n, p, beta_vec)
+        X, y, y_true, beta0 = gen_data_transfer(n_vec=n_vec, s=s, h=h, q=q, size_A0=size_A0, M=M, 
+                                 sig_beta=sig_beta, sig_delta1=sig_delta1, 
+                                 sig_delta2=sig_delta2, p=p, exact=exact)
 
         clf = linear_model.Lasso(alpha=lamda, fit_intercept=False, tol=1e-10)
         clf.fit(X, y)
