@@ -11,7 +11,7 @@ from sklearn.exceptions import ConvergenceWarning
 # Tắt cảnh báo ConvergenceWarning
 warnings.filterwarnings("ignore", category=ConvergenceWarning)
 
-def run_simulation(num_simulations=500):
+def run_simulation(num_simulations=1000):
     # Parameters
     alpha = 0.1
     p = 200
