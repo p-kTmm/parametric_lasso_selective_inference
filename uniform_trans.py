@@ -6,7 +6,7 @@ import parametric_lasso
 import gen_data
 import util
 
-def run_simulation(num_simulations=50):
+def run_simulation(num_simulations=1):
     # Parameters
     lamda = alpha = 0.1
     p = 500
