@@ -157,4 +157,7 @@ def pivot_with_specified_interval(z_interval, etaj, etajTy, cov, tn_mu):
 
 def p_value(A, bh, list_active_set, list_zk, list_bhz, etaj, etajTy, cov):
     value = pivot(A, bh, list_active_set, list_zk, list_bhz, etaj, etajTy, cov, 0, 'A')
-    return 2 * min(1 - value, value)
+    if value:
+        return 2 * min(1 - value, value)
+    else:
+        return None
