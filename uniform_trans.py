@@ -27,13 +27,12 @@ def run_simulation(num_simulations=1):
     A0 = list(range(size_A0))
 
     n = sum(n_vec)
-    print(n)
     cov = np.identity(n)
     threshold = 20
     p_values = []
 
     for sim in range(num_simulations):
-        X, y, y_true, beta0 = gen_data_transfer(n_vec=n_vec, s=s, h=h, q=q, size_A0=size_A0, M=M, 
+        X, y, y_true, beta0 = gen_data.gen_data_transfer(n_vec=n_vec, s=s, h=h, q=q, size_A0=size_A0, M=M, 
                                  sig_beta=sig_beta, sig_delta1=sig_delta1, 
                                  sig_delta2=sig_delta2, p=p, exact=exact)
 
