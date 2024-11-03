@@ -49,6 +49,7 @@ def run_simulation(num_simulations=500):
 
         res_kA = gen_data.las_kA(X, y, A0=A0, n_vec=n_vec, alpha=alpha)
         bh = res_kA['beta_kA']
+        print(bh)
         
         y = y.reshape((n, 1))
 
