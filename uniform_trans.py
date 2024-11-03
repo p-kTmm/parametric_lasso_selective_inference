@@ -10,7 +10,8 @@ def run_simulation(num_simulations=1):
     # Parameters
     lamda = alpha = 0.1
     p = 500
-    s = 16
+    # s = 16
+    s = 0
     M = 20
     sig_beta = 0.3
     n0 = 150
