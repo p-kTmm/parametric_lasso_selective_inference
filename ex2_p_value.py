@@ -11,6 +11,7 @@ def run():
     p = 5
     lamda = 0.05
     beta_vec = [1, 1, 0, 0, 0]
+    beta_vec = [0, 0, 0, 0, 0]  # Under the null hypothesis
 
     # lamda = 1
     # beta_vec = [0.25, 0.25, 0, 0, 0]
