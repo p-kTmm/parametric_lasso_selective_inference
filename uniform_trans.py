@@ -57,12 +57,12 @@ import parametric_lasso
 import util
 import gen_data
 
-def run_simulation(num_simulations=500000):
+def run_simulation(num_simulations=1000):
     p = 10
     s=0
     n0 = 150
     M = 6
-    lamda = 0.05
+    lamda = 0.01
     sig_beta = 0.3
     gamma = 0.3
     threshold = 20
