@@ -72,6 +72,7 @@ def run_simulation(num_simulations=1000):
         X, y, n_vec, _ = gen_data.generate_data(p=p, n0=n0, M=M, s=s, sig_beta=sig_beta, gamma=gamma)
 
         bh = gen_data.OracleTransLasso(X, y, n_vec)
+        X, y = X[:n_vec[0]], y[:n_vec[0]]
         y = y.reshape((-1, 1))
         A, XA, Ac, XAc, bhA = util.construct_A_XA_Ac_XAc_bhA(X, bh, n0, p)
 
