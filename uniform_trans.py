@@ -96,13 +96,13 @@ def run_simulation(num_simulations=2000):
         X_0, y_0 = X_stack[:n_vec[0]], y_stack[:n_vec[0]]
         X_A, y_A = X_stack[n_vec[0]:], y_stack[n_vec[0]:]
 
-        #test-------------
-        beta_hat = w_hat_A
-        n0 = num_aux_dataset*100
-        X_0 =X_A
-        y_0 =y_A
-        cov = np.identity(n0) 
-        #-----------------
+        # #test-------------
+        # beta_hat = w_hat_A
+        # n0 = num_aux_dataset*100
+        # X_0 =X_A
+        # y_0 =y_A
+        # cov = np.identity(n0) 
+        # #-----------------
 
 
       
