@@ -33,8 +33,9 @@ def run_simulation(num_simulations=1000):
                 X, y, lamda, etaj, n0, p, threshold)
             p_value = util.p_value(
                 A, bh, list_active_set, list_zk, list_bhz, etaj, etajTy, cov)
-            p_values.append(p_value)
-
+            if p_value:
+                p_values.append(p_value)
+                
     plt.hist(p_values, bins=20, edgecolor='k', density=True)
     plt.xlabel('p-value')
     plt.ylabel('Density')
