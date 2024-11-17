@@ -65,7 +65,7 @@ import numpy as np
 from sklearn.linear_model import Lasso
 import matplotlib.pyplot as plt
 
-def OracleTransLasso (X, y, n_vec):
+def OracleTransLasso (X, y, n_vec, lamda_w=None, lamda_delta=None):
     n0 = n_vec[0]
     nA = np.sum(n_vec) - n0
 
@@ -76,8 +76,10 @@ def OracleTransLasso (X, y, n_vec):
 
     p = X.shape[1]
 
-    lamda_w = np.sqrt(2 * np.log(p)/nA)
-    lamda_delta = np.sqrt(2 * np.log(p)/n0)
+    if lamda_w == None:
+        lamda_w = np.sqrt(2 * np.log(p)/nA)
+    if lamda_delta == None:
+        lamda_delta = np.sqrt(2 * np.log(p)/n0)
     
     w_hat_A = Lasso(alpha = lamda_w, fit_intercept=False).fit(XA, yA).coef_
 
