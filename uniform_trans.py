@@ -7,7 +7,7 @@ import util
 import gen_data
 
 def run_simulation(num_simulations=1000):
-    p = 20
+    p = 10
     s=0
     n0 = 150
     M = 6
