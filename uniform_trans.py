@@ -71,7 +71,8 @@ def run_simulation(num_simulations=3000):
     gamma = 0.2
     threshold = 20
     p_values = []
-    cov = np.identity(n0)    
+    cov = np.identity(n0)  
+  
     for sim in range(num_simulations):
         X, y, n_vec, _ = gen_data.generate_data(p=p, n0=n0, M=M, s=s, sig_beta=sig_beta, gamma=gamma)
 
@@ -84,6 +85,7 @@ def run_simulation(num_simulations=3000):
         n0 = M*100
         X =X_A
         y =y_A
+        cov = np.identity(n0) 
         #-----------------
 
 
