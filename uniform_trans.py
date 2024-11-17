@@ -84,7 +84,7 @@ def run_simulation(num_simulations=3000):
         bh = w_hat_A
         print(len(bh))
         n0 = M*100
-        print(len(no))
+        print(len(n0))
         X =X_A
         print(X.shape)
         y =y_A
