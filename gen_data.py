@@ -92,23 +92,20 @@ def OracleTransLasso (X, y, n_vec, lamda_w=None, lamda_delta=None):
 def sse(beta, beta_hat):
     return np.sum((beta - beta_hat) ** 2)
 
-def coef_gen(s=2, M=10, sig_beta=0.3, gamma=0.3, p=20): 
-        # Generate beta with s non-zero entries and p-s zero entries
+def coef_gen(s=2, num_aux_dataset=10, sig_beta=0.3, gamma=0.3, p=20): 
         beta = np.concatenate([np.full(s, sig_beta), np.zeros(p - s)])
         
-        # Initialize W by replicating beta across M columns
-        W = np.tile(beta, (M, 1)).T
+        W = np.tile(beta, (num_aux_dataset, 1)).T
     
-        # Add noise to informative models (first size_A0 columns)
-        for m in range(M):
+        for m in range(num_aux_dataset):
             W[:, m] += np.random.normal(0, gamma * sig_beta, p)
 
         return {'W': W, 'beta': beta}
 
 
-def generate_data(p=20, n0=150, M=10, s=2, sig_beta=0.3, gamma=0.3):
-    n_vec = [n0] + [100] * M
-    coef_all = coef_gen(s=s, M=M, sig_beta=sig_beta, gamma=gamma, p=p)
+def generate_data(p=20, n0=150, num_aux_dataset=10, s=2, sig_beta=0.3, gamma=0.3):
+    n_vec = [n0] + [100] * num_aux_dataset
+    coef_all = coef_gen(s=s, num_aux_dataset=num_aux_dataset, sig_beta=sig_beta, gamma=gamma, p=p)
     
     B = np.column_stack([coef_all['beta'], coef_all['W']])
     beta = coef_all['beta']
@@ -116,7 +113,7 @@ def generate_data(p=20, n0=150, M=10, s=2, sig_beta=0.3, gamma=0.3):
     X_list = []
     y_list = []
 
-    for k in range(M + 1):
+    for k in range(num_aux_dataset + 1):
         X_k = np.random.multivariate_normal(mean=np.zeros(p), cov=np.eye(p), size=n_vec[k])
         y_k = X_k @ B[:, k] + np.random.normal(0, 1, n_vec[k])
         X_list.append(X_k)
