@@ -62,7 +62,9 @@ def run_simulation(num_simulations=1000):
     s=0
     n0 = 150
     M = 8
-    lamda = lamda_w = lamda_delta = 0.08
+    lamda = 0.08
+    lamda_w = lamda
+    lamda_delta = lamda
     # lamda_w=0.1
     # lamda_delta=0.05
   
