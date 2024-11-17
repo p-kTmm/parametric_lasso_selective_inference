@@ -87,7 +87,7 @@ def OracleTransLasso (X, y, n_vec, lamda_w=None, lamda_delta=None):
 
     beta_hat = w_hat_A + delta_hat_A
 
-    return beta_hat                                                                       
+    return beta_hat, w_hat_A, delta_hat_A                                                    
 
 def sse(beta, beta_hat):
     return np.sum((beta - beta_hat) ** 2)
