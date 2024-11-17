@@ -16,10 +16,11 @@ def run_simulation(num_simulations=1000):
     gamma = 0.3
     threshold = 20
     p_values = []
-    cov = np.identity(n0)
+    cov = np.identity(n0)    
     for sim in range(num_simulations):
         X, y, n_vec, _ = gen_data.generate_data(p=p, n0=n0, M=M, s=s, sig_beta=sig_beta, gamma=gamma)
-        bh = Lasso(alpha=lamda, fit_intercept=False).fit(X[:n_vec[0]], y[:n_vec[0]]).coef_
+        X, y = X[:n_vec[0]], y[:n_vec[0]]
+        bh = Lasso(alpha=lamda, fit_intercept=False).fit(X, y).coef_
         y = y.reshape((-1, 1))
         A, XA, Ac, XAc, bhA = util.construct_A_XA_Ac_XAc_bhA(X, bh, n0, p)
 
