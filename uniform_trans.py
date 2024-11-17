@@ -57,7 +57,7 @@ import parametric_lasso
 import util
 import gen_data
 
-def run_simulation(num_simulations=10000):
+def run_simulation(num_simulations=50000):
     p = 10
     s=0
     n0 = 150
