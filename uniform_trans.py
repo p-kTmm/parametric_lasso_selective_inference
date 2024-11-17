@@ -61,15 +61,18 @@ def run_simulation(num_simulations=1000):
     p = 10
     s=0
     n0 = 150
-    M = 6
-    lamda = 0.01
+    M = 8
+    lamda = lamda_w = lamda_delta = 0.08
+    # lamda_w=0.1
+    # lamda_delta=0.05
+  
     sig_beta = 0.3
-    gamma = 0.3
+    gamma = 0.2
     threshold = 20
     p_values = []
     cov = np.identity(n0)    
     for sim in range(num_simulations):
-        X, y, n_vec, _ = gen_data.generate_data(p=p, n0=n0, M=M, s=s, sig_beta=sig_beta, gamma=gamma)
+        X, y, n_vec, _ = gen_data.generate_data(p=p, n0=n0, M=M, s=s, sig_beta=sig_beta, gamma=gamma, lamda_w=lamda_w, lamda_delta=lamda_delta)
 
         bh = gen_data.OracleTransLasso(X, y, n_vec)
         X, y = X[:n_vec[0]], y[:n_vec[0]]
