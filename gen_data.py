@@ -15,7 +15,7 @@ def generate(n, p, beta_vec):
             yi = yi + xij * beta_vec[j]
 
         true_y.append(yi)
-        noise = np.random.normal(0, 0.5)
+        noise = np.random.normal(0, 1)
         yi = yi + noise
         y.append(yi)
 
