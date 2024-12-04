@@ -10,7 +10,7 @@ def run_simulation(num_simulations=1000):
     n = 100
     p = 10
     lamda = 0.05
-    beta_vec = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  # Under the null hypothesis
+    beta_vec = [0, 0, 0, 0, 0]  # Under the null hypothesis
 
     cov = np.identity(n)
     threshold = 20
