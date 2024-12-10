@@ -52,6 +52,12 @@ def parametric_lasso_cv(X, yz, lamda, b, n, p):
     etaAz = etaAz.flatten()
     shAz = shAz.flatten()
     gammaAz = gammaAz.flatten()
+    # Find values with abs() > 1 by 1e-12
+    large_shAz = shAz[np.abs(shAz) >= 1 ]
+    
+    # Print such values if any
+    if large_shAz.size > 0:
+        print("Values in sWcz exceeding 1 by more than 1e-20:", large_shAz)
 
     min1 = np.Inf
     min2 = np.Inf
